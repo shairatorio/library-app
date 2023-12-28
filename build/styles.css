@@ -1,0 +1,36 @@
+:root {
+    --color-dark-blue: #161A30;
+    --color-medium-blue: #394867;
+    --color-gray: #71797E;
+    --color-beige: #F0ECE5;
+    --color-red: #fd3b00;
+    --font-style-poppins: 'Poppins', sans-serif;
+}
+
+body {
+    font-family: var(--font-style-poppins);
+}
+
+.offcanvas {
+    background-color: var(--color-medium-blue);
+}
+
+.offcanvas-header {
+    color: var(--color-beige);
+}
+
+.form-floating {
+    color: var(--color-gray);
+}
+
+.bi {
+    font-size: 2.9rem;
+}
+
+div {
+    /* border: 2px solid red; */
+}
+
+i, h4 {
+    /* border: 2px solid green; */
+}
