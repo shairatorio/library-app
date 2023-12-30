@@ -11,26 +11,30 @@ body {
     font-family: var(--font-style-poppins);
 }
 
-.offcanvas {
-    background-color: var(--color-medium-blue);
+.bi {
+    font-size: 2.9rem;
 }
 
-.offcanvas-header {
+.bi, h2 {
     color: var(--color-beige);
+}
+
+.sidebar {
+    background-color: var(--color-medium-blue);
 }
 
 .form-floating {
     color: var(--color-gray);
 }
 
-.bi {
-    font-size: 2.9rem;
+.col-4, .col {
+    /* border: 5px solid red; */
 }
 
-div {
-    /* border: 2px solid red; */
+.form-floating, .d-flex {
+    /* border: 5px solid yellow; */
 }
 
-i, h4 {
-    /* border: 2px solid green; */
+.row {
+    /* border: 5px solid green; */
 }
