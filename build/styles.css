@@ -11,12 +11,30 @@ body {
     font-family: var(--font-style-poppins);
 }
 
-.bi {
+.bi-journal-text {
     font-size: 2.9rem;
 }
 
-.bi, h2 {
+.bi-pencil-square,
+.bi-x-circle-fill {
+    font-size: 1.2rem;
+}
+
+.edit, .delete {
+    margin: 0.1rem;
+}
+
+.bi-journal-text, h2 {
     color: var(--color-beige);
+}
+
+.bi-pencil-square {
+    color: var(--color-gray);
+}
+
+.bi-x-circle-fill,
+.count .col span {
+    color: var(--color-red);
 }
 
 .sidebar {
@@ -27,14 +45,9 @@ body {
     color: var(--color-gray);
 }
 
-.col-4, .col {
-    /* border: 5px solid red; */
-}
-
-.form-floating, .d-flex {
-    /* border: 5px solid yellow; */
-}
-
-.row {
-    /* border: 5px solid green; */
+.count .col p,
+.count .col span {
+    /* border: 2px solid red; */
+    font-size: 1.5rem;
+    font-weight: bolder;
 }
