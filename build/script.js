@@ -1,3 +1,4 @@
+// DOM elements
 const inputTitle = document.getElementById("title");
 const inputAuthor = document.getElementById("author");
 const inputPages = document.getElementById("pages");
@@ -5,8 +6,10 @@ const inputStatus = document.getElementById("status");
 const btnAddBook = document.getElementById("addBookBtn");
 const tableBooks = document.getElementById("table-body");
 
+// Library array
 const arrLibrary = [];
 
+// Book constructor
 function Book(title, author, pages, status) {
   this.title = title;
   this.author = author;
@@ -14,67 +17,73 @@ function Book(title, author, pages, status) {
   this.status = status;
 }
 
-function addGlobalEventListener(type, selector, callback) {
-  document.addEventListener(type, e => {
-    if (e.target.matches(selector)) {
-      callback(e);
-    }
-  });
+// Function to add a book to the library
+function addBookToLibrary(event) {
+  const title = inputTitle.value.trim();
+  const author = inputAuthor.value.trim();
+  const pages = inputPages.value.trim();
+  const status = inputStatus.value.trim();
+
+  if (validateInput(title, author, pages, status)) {
+    const newBook = new Book(title, author, pages, status);
+
+    arrLibrary.push(newBook);
+    addRowInTable(newBook);
+    clearInputValue();
+    console.log(arrLibrary);
+  }
 }
 
-function addBookToLibrary() {
-  const title = inputTitle.value;
-  const author = inputAuthor.value;
-  const pages = inputPages.value;
-  const status = inputStatus.value;
-
-  const newBook = new Book(title, author, pages, status);
-
-  arrLibrary.push(newBook);
-  addRowInTable(newBook);
-  clearInputValue();
-  console.log(arrLibrary);
+// Function to validate input values
+function validateInput(title, author, pages, status) {
+  if (!title || !author || !pages || !status) {
+    return false;
+  }
+  return true; 
 }
 
+// Function to add a row in the table for a book
 function addRowInTable(book) {
   const row = tableBooks.insertRow(-1);
 
-  const cellTitle = row.insertCell(0);
-  const cellAuthor = row.insertCell(1);
-  const cellPages = row.insertCell(2);
-  const cellStatus = row.insertCell(3);
-  const cellAction = row.insertCell(4);
+  for (let prop in book) {
+    const cell = row.insertCell();
+    cell.innerText = book[prop];
+  }
 
-  cellTitle.innerText = book.title;
-  cellAuthor.innerText = book.author;
-  cellPages.innerText = book.pages;
-  cellStatus.innerText = book.status;
-
+  const cellAction = row.insertCell();
   const removeButton = createRemoveButton(arrLibrary.indexOf(book));
   cellAction.appendChild(removeButton);
 }
 
+// Function to create a "Remove" button for a book
 function createRemoveButton(index) {
   const removeButton = document.createElement("button");
   removeButton.type = "button";
   removeButton.className = "btn btn-danger btn-sm delete border-0";
   removeButton.innerText = "Remove";
   removeButton.setAttribute("data-index", index);
+  removeButton.addEventListener("click", deleteRowInTable);
   return removeButton;
 }
 
-function removeBookFromLibrary(e) {
+// Function to handle the removal of a book row
+function deleteRowInTable(e) {
   const index = e.target.getAttribute("data-index");
   arrLibrary.splice(index, 1);
-  renderLibrary();
+  updateTable();
 }
 
-function renderLibrary() {
-  const tbody = tableBooks.getElementsByTagName("tbody")[0];
-  tbody.innerHTML = "";
-  arrLibrary.forEach(book => addRowInTable(book));
+// Function to update the entire table
+function updateTable() {
+  // Clear the existing table
+  tableBooks.innerHTML = "";
+
+  // Add rows for each book in the library
+  arrLibrary.forEach(addRowInTable);
 }
 
+// Function to clear input values
 function clearInputValue() {
   inputTitle.value = "";
   inputAuthor.value = "";
@@ -82,10 +91,5 @@ function clearInputValue() {
   inputStatus.value = "";
 }
 
-addGlobalEventListener('click', 'button', function (e) {
-  if (e.target.matches('.btn-danger')) {
-    removeBookFromLibrary(e);
-  } else {
-    addBookToLibrary(e);
-  }
-});
+// Event listener for adding a book
+btnAddBook.addEventListener("click", addBookToLibrary);
