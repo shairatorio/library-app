@@ -5,6 +5,7 @@ const inputPages = document.getElementById("pages");
 const inputStatus = document.getElementById("status");
 const btnAddBook = document.getElementById("addBookBtn");
 const tableBooks = document.getElementById("table-body");
+const form = document.getElementById("form");
 
 // Library array
 const arrLibrary = [];
@@ -18,7 +19,7 @@ function Book(title, author, pages, status) {
 }
 
 // Function to add a book to the library
-function addBookToLibrary(event) {
+function addBookToLibrary() {
   const title = inputTitle.value.trim();
   const author = inputAuthor.value.trim();
   const pages = inputPages.value.trim();
@@ -46,9 +47,9 @@ function validateInput(title, author, pages, status) {
 function addRowInTable(book) {
   const row = tableBooks.insertRow(-1);
 
-  for (let prop in book) {
+  for (let i in book) {
     const cell = row.insertCell();
-    cell.innerText = book[prop];
+    cell.innerText = book[i];
   }
 
   const cellAction = row.insertCell();
@@ -92,4 +93,9 @@ function clearInputValue() {
 }
 
 // Event listener for adding a book
-btnAddBook.addEventListener("click", addBookToLibrary);
+form.addEventListener("submit", (e) => {
+  debugger;
+  // Prevent the default form submission behavior
+  e.preventDefault(); 
+  addBookToLibrary();
+});

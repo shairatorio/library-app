@@ -24,7 +24,7 @@ body {
     margin: 0.1rem;
 }
 
-.bi-journal-text, h2 {
+.bi-journal-text, .title {
     color: var(--color-beige);
 }
 
