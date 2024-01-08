@@ -1,16 +1,16 @@
-// DOM elements
 const inputTitle = document.getElementById("title");
 const inputAuthor = document.getElementById("author");
 const inputPages = document.getElementById("pages");
 const inputStatus = document.getElementById("status");
 const btnAddBook = document.getElementById("addBookBtn");
 const tableBooks = document.getElementById("table-body");
+const totalRead = document.getElementById("booksRead");
+const totalUnread = document.getElementById("booksUnread");
+const totalBooks = document.getElementById("totalBooks");
 const form = document.getElementById("form");
 
-// Library array
 const arrLibrary = [];
 
-// Book constructor
 function Book(title, author, pages, status) {
   this.title = title;
   this.author = author;
@@ -18,7 +18,6 @@ function Book(title, author, pages, status) {
   this.status = status;
 }
 
-// Function to add a book to the library
 function addBookToLibrary() {
   const title = inputTitle.value.trim();
   const author = inputAuthor.value.trim();
@@ -27,37 +26,49 @@ function addBookToLibrary() {
 
   if (validateInput(title, author, pages, status)) {
     const newBook = new Book(title, author, pages, status);
-
     arrLibrary.push(newBook);
-    addRowInTable(newBook);
-    clearInputValue();
-    console.log(arrLibrary);
+    updateTableAndBookCounts();
+    clearInputValues();
   }
 }
 
-// Function to validate input values
 function validateInput(title, author, pages, status) {
-  if (!title || !author || !pages || !status) {
-    return false;
-  }
-  return true; 
+  return title && author && pages && status;
 }
 
-// Function to add a row in the table for a book
+function updateTableAndBookCounts() {
+  updateTable();
+  updateBookCounts();
+}
+
+function updateTable() {
+  tableBooks.innerHTML = "";
+  arrLibrary.forEach(addRowInTable);
+}
+
 function addRowInTable(book) {
   const row = tableBooks.insertRow(-1);
 
-  for (let i in book) {
+  Object.values(book).forEach(value => {
     const cell = row.insertCell();
-    cell.innerText = book[i];
-  }
+    cell.innerText = value;
+  });
 
   const cellAction = row.insertCell();
   const removeButton = createRemoveButton(arrLibrary.indexOf(book));
   cellAction.appendChild(removeButton);
 }
 
-// Function to create a "Remove" button for a book
+function updateBookCounts() {
+  const totalBooksCount = arrLibrary.length;
+  let totalReadCount = arrLibrary.filter(book => book.status === 'Read').length;
+  let totalUnReadCount = arrLibrary.filter(book => book.status === 'Unread').length;
+
+  totalBooks.innerText = totalBooksCount.toString();
+  totalRead.innerText = totalReadCount.toString();
+  totalUnread.innerText = totalUnReadCount.toString();
+}
+
 function createRemoveButton(index) {
   const removeButton = document.createElement("button");
   removeButton.type = "button";
@@ -68,34 +79,22 @@ function createRemoveButton(index) {
   return removeButton;
 }
 
-// Function to handle the removal of a book row
 function deleteRowInTable(e) {
   const index = e.target.getAttribute("data-index");
   arrLibrary.splice(index, 1);
-  updateTable();
+  updateTableAndBookCounts();
 }
 
-// Function to update the entire table
-function updateTable() {
-  // Clear the existing table
-  tableBooks.innerHTML = "";
-
-  // Add rows for each book in the library
-  arrLibrary.forEach(addRowInTable);
-}
-
-// Function to clear input values
-function clearInputValue() {
+function clearInputValues() {
   inputTitle.value = "";
   inputAuthor.value = "";
   inputPages.value = "";
   inputStatus.value = "";
 }
 
-// Event listener for adding a book
 form.addEventListener("submit", (e) => {
-  debugger;
-  // Prevent the default form submission behavior
-  e.preventDefault(); 
+  e.preventDefault();
   addBookToLibrary();
 });
+
+window.onload = updateBookCounts;
