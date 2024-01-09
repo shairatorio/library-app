@@ -1,5 +1,4 @@
 :root {
-    --color-dark-blue: #161A30;
     --color-medium-blue: #394867;
     --color-gray: #71797E;
     --color-beige: #F0ECE5;
@@ -47,7 +46,6 @@ body {
 
 .count .col p,
 .count .col span {
-    /* border: 2px solid red; */
     font-size: 1.5rem;
     font-weight: bolder;
 }
