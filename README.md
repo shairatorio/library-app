@@ -1,6 +1,6 @@
 # myLibrary - Book Tracking Web Application
 
-![Screenshot of Desktop View](https://github.com/shairatorio/library-app/blob/develop/images/library-app.png?raw=true)
+![Screenshot of Desktop View](https://github.com/shairatorio/library-app/blob/main/images/library-app.png?raw=true)
 
 Developed a Library Web Application using Bootstrap Framework and Javascript for my project in [The Odin Project](https://www.theodinproject.com/) Curriculum.
 
