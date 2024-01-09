@@ -11,11 +11,17 @@ const form = document.getElementById("form");
 
 const arrLibrary = [];
 
-function Book(title, author, pages, status) {
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.status = status;
+class Book {
+  constructor(title, author, pages, status) {
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.status = status;
+  }
+
+  toggleStatus() {
+    this.status = this.status === 'Read' ? 'Unread' : 'Read';
+  }
 }
 
 function addBookToLibrary() {
@@ -52,35 +58,43 @@ function addRowInTable(book) {
   Object.values(book).forEach(value => {
     const cell = row.insertCell();
     cell.innerText = value;
+    cell.classList.add('align-middle');
   });
 
   const cellAction = row.insertCell();
-  const removeButton = createRemoveButton(arrLibrary.indexOf(book));
+
+  const toggleStatusButton = createButton("Change Status", "btn-primary", () => {
+    book.toggleStatus();
+    updateTableAndBookCounts();
+  });
+  cellAction.appendChild(toggleStatusButton);
+
+  const removeButton = createButton("Remove", "btn-danger", () => {
+    deleteRowInTable(arrLibrary.indexOf(book));
+  });
   cellAction.appendChild(removeButton);
 }
 
 function updateBookCounts() {
   const totalBooksCount = arrLibrary.length;
-  let totalReadCount = arrLibrary.filter(book => book.status === 'Read').length;
-  let totalUnReadCount = arrLibrary.filter(book => book.status === 'Unread').length;
+  const totalReadCount = arrLibrary.filter(book => book.status === 'Read').length;
+  const totalUnreadCount = arrLibrary.filter(book => book.status === 'Unread').length;
 
   totalBooks.innerText = totalBooksCount.toString();
   totalRead.innerText = totalReadCount.toString();
-  totalUnread.innerText = totalUnReadCount.toString();
+  totalUnread.innerText = totalUnreadCount.toString();
 }
 
-function createRemoveButton(index) {
-  const removeButton = document.createElement("button");
-  removeButton.type = "button";
-  removeButton.className = "btn btn-danger btn-sm delete border-0";
-  removeButton.innerText = "Remove";
-  removeButton.setAttribute("data-index", index);
-  removeButton.addEventListener("click", deleteRowInTable);
-  return removeButton;
+function createButton(text, className, clickHandler) {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = `btn btn-sm border-0 me-1 my-1 ${className}`;
+  button.innerText = text;
+  button.addEventListener("click", clickHandler);
+  return button;
 }
 
-function deleteRowInTable(e) {
-  const index = e.target.getAttribute("data-index");
+function deleteRowInTable(index) {
   arrLibrary.splice(index, 1);
   updateTableAndBookCounts();
 }
